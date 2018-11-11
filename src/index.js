@@ -5,7 +5,7 @@ import HW from "react-highlight-words";
 import { Avatar, Button, CardActions, CardHeader } from "@material-ui/core";
 import { Grid, Input, Paper, Toolbar } from "@material-ui/core";
 import styled from 'styled-components'
-
+import Move from './function.move'
 
 // 90POE Applications application
 const CrewApplications = () => {
@@ -51,13 +51,6 @@ const CrewApplications = () => {
     return [first, last, city].some(check);
   };
 
-  // Business logic. Move an item between columns, index addressable
-  const Move = (iCol, iItem, direction) => {
-    const newData = [...data];
-    newData[iCol + direction].push(newData[iCol].splice(iItem, 1)[0]);
-    setData(newData);
-  };
-
   // This is an individual Person Card with left and right buttons
   const Text = ({ val }) => <HW searchWords={[query]} textToHighlight={val} />;
   const Arrow = props => <Button fullWidth {...props} />;
@@ -69,14 +62,19 @@ const CrewApplications = () => {
         subheader={<Text val={city} />}
       />
       <CardActions disableActionSpacing={true}>
-        {iCol > 0 && <Arrow onClick={() => Move(iCol, i, -1)} children="👈" />}
-        {iCol < 2 && <Arrow onClick={() => Move(iCol, i, 1)} children="👉" />}
+        {iCol > 0 && <Arrow onClick={() => {
+          setData(Move({ col: iCol, row: i, direction: -1, data }))
+        }} children="👈" />}
+        {iCol < 2 && <Arrow onClick={() => {
+          setData(Move({ col: iCol, row: i, direction: 1, data }))
+        }} children="👉" />}
       </CardActions>
     </Paper>
   );
 
   // And this is the app. The header, error message, and the applications grid
   if (!data) return <div>loading</div>;
+  const columnHeaders = ["applied", "interviewing", "hired"];
   return (
     <div style={{ maxWidth: 800, margin: "0 auto" }}>
       <Toolbar>
@@ -89,7 +87,7 @@ const CrewApplications = () => {
         {data.map((column, iCol) => (
           <Grid item xs={4} key={iCol} spacing={8} container direction="column">
             <Column>
-              <ColumnHead>{["Applied", "Interviewing", "Hired"][iCol]}</ColumnHead>
+              <ColumnHead>{column.filter(Find).length || ""} {columnHeaders[iCol]}</ColumnHead>
               {!column.filter(Find).length && <NoneWrap><None>NONE</None></NoneWrap>}
               {column.map(
                 (item, i) => Find(item) && <Person {...item} iCol={iCol} i={i} />

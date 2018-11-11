@@ -14,7 +14,9 @@
     "react-scripts": "2.0.3",
     "styled-components": "^4.0.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "flow-bin": "^0.86.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
