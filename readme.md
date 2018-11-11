@@ -22,6 +22,6 @@ If you would [log a ticket](jira.com/ourboard) we'd be grateful.
 >
 ### ⚠️ Warning!
 >
-All applicants here are generated using a random user api. **There is no way to add real humans**. This is intentional behaviour. We can't condone exposing business-critical systems to the complacency of humanity and suggest you hire only bots.
+All applicants here are generated using a random user api. **There is no way to add real humans**. This is intentional behaviour. We can't condone exposing business-critical systems to the complacency of humanity and insist you hire only bots.
 
 ---
