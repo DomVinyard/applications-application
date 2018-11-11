@@ -1,10 +1,11 @@
-// 90POE Applications application
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import local from "local-storage";
 import HW from "react-highlight-words";
 import { Avatar, Button, CardActions, CardHeader } from "@material-ui/core";
 import { Grid, Input, Paper, Toolbar } from "@material-ui/core";
+
+// 90POE Applications application
 const CrewApplications = () => {
   const random = num => `https://randomuser.me/api/?nat=gb&results=${num}`;
   const users = async num => (await (await fetch(random(num))).json()).results;
@@ -97,6 +98,4 @@ const CrewApplications = () => {
     </div>
   );
 };
-ReactDOM.render(<CrewApplications />, document.getElementById("root")); // 100
-
-// DV 🍸
+ReactDOM.render(<CrewApplications />, document.getElementById("root"));
