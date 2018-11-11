@@ -4,6 +4,8 @@ import local from "local-storage";
 import HW from "react-highlight-words";
 import { Avatar, Button, CardActions, CardHeader } from "@material-ui/core";
 import { Grid, Input, Paper, Toolbar } from "@material-ui/core";
+import styled from 'styled-components'
+
 
 // 90POE Applications application
 const CrewApplications = () => {
@@ -75,27 +77,84 @@ const CrewApplications = () => {
 
   // And this is the app. The header, error message, and the applications grid
   if (!data) return <div>loading</div>;
-  const Action = props => <Button variant="contained" {...props} />;
   return (
     <div style={{ maxWidth: 800, margin: "0 auto" }}>
-      <Toolbar style={{ width: 400, margin: "0 auto" }}>
+      <Toolbar>
         <Input placeholder="🔍 Search" onKeyUp={Search} />
-        <Action onClick={AddPerson} children="🙋 Add" disabled={adding} />
+        <AddButton onClick={AddPerson} children="🙋 Add" disabled={adding} />
         <Action onClick={FlushData} children="💣 Clear" />
       </Toolbar>
       {error && <div style={{ color: "firebrick" }}>{error}</div>}
       <Grid container spacing={16} direction="row">
         {data.map((column, iCol) => (
           <Grid item xs={4} key={iCol} spacing={8} container direction="column">
-            <h3 align="center">{["Applied", "Interviewing", "Hired"][iCol]}</h3>
-            {!column.filter(Find).length && <div align="center">none</div>}
-            {column.map(
-              (item, i) => Find(item) && <Person {...item} iCol={iCol} i={i} />
-            )}
+            <Column>
+              <ColumnHead>{["Applied", "Interviewing", "Hired"][iCol]}</ColumnHead>
+              {!column.filter(Find).length && <NoneWrap><None>NONE</None></NoneWrap>}
+              {column.map(
+                (item, i) => Find(item) && <Person {...item} iCol={iCol} i={i} />
+              )}
+            </Column>
           </Grid>
         ))}
       </Grid>
     </div>
   );
 };
+
+// Styled components
+
+const Column = styled.span`
+  background: aliceblue;
+  padding: 0.5rem;
+  border-radius: 12px;
+  font-family: "HelveticaNeue-Light", sans-serif; 
+`
+
+const NoneWrap = styled.h2`
+  overflow: hidden;
+  color: #416d94;
+  text-align: center;
+  > span{
+    position: relative;
+    display: inline-block;
+  }
+  > span:before, > span:after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    border-bottom: 2px solid;
+    width: 591px; /* half of limiter*/
+    margin: 0 20px;
+  }
+  > span:before{
+    right: 100%;
+  }
+  > span:after{
+    left: 100%;
+  }
+`
+
+const ColumnHead = styled.h2`
+  text-align: center;
+  color: rgb(122, 136, 148);
+  font-weight: 200;
+  letter-spacing: 1px;
+`
+
+const None = styled.span`
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+`
+
+// This is not a good way to do this.
+const Action = props => <Button variant="contained" {...props} />;
+const AddButton = styled(Action)`
+  margin-left: auto !important;
+  margin-right: 4px !important;
+`
+
+// Render
 ReactDOM.render(<CrewApplications />, document.getElementById("root"));
